@@ -38,11 +38,12 @@ input.addEventListener("keypress", addListAfterKeypress);
 
 ul.onclick = function(event) {
 	var target = event.target;
-	if(target.tagName !== "LI") return;
-	for(var i = 0; i < items.length; i++) {
-		items[i].classList.remove("active");
-	}
-	target.classList.add("active");
+	target.classList.add("done");
+	// if(target.tagName !== "LI") return;
+	// for(var i = 0; i < items.length; i++) {
+	// 	items[i].classList.remove("active");
+	// }
+	// target.classList.add("active");
 }
 
 for(var i = 0; i < btns.length; i++) {
