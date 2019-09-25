@@ -1,55 +1,47 @@
-var button = document.getElementById("enter");
 var input = document.getElementById("userinput");
+var button = document.getElementById("enter");
+var li = document.getElementsByTagName("li");
 var ul = document.querySelector("ul");
-var items = document.querySelectorAll("li");
-var btns = document.getElementsByClassName("btn");
+var buttonDelete = document.getElementsByClassName("delete");
+
+function createListItem() {
+	var listItem = document.createElement("li");
+	listItem.appendChild(document.createTextNode(input.value));
+	ul.appendChild(listItem)
+
+	var dltBtn = document.createElement("button");
+	dltBtn.appendChild(document.createTextNode("Delete"));
+	dltBtn.onclick = removeParent;
+	listItem.appendChild(dltBtn);
+
+	input.value = "";
+}
+
+function removeParent(event) {
+	var target = event.target;
+	target.parentNode.remove();
+}
+
+for(let i = 0; i < buttonDelete.length; i++) {
+	buttonDelete[i].addEventListener("click", removeParent)
+}
 
 function inputLength() {
 	return input.value.length;
 }
 
-function createListElement() {
-	var li = document.createElement("li");
-	li.appendChild(document.createTextNode(input.value));
-	ul.appendChild(li);
-	input.value = "";
-
-	var btn = document.createElement("button");
-	btn.appendChild(document.createTextNode("Delete"));
-	li.appendChild(btn);
-	
+function addItemAfterClick() {
+	if(inputLength() > 0) createListItem();
 }
 
-function addListAfterClick() {
-	if (inputLength() > 0) {
-		createListElement();
-	}
+function addItemAfterKeypress(event) {
+	if(inputLength() > 0 && event.keyCode === 13) createListItem();
 }
-
-function addListAfterKeypress(event) {
-	if (inputLength() > 0 && event.keyCode === 13) {
-		createListElement();
-	}
-}
-
-button.addEventListener("click", addListAfterClick);
-
-input.addEventListener("keypress", addListAfterKeypress);
 
 ul.onclick = function(event) {
 	var target = event.target;
 	target.classList.toggle("done");
-	// if(target.tagName !== "LI") return;
-	// for(var i = 0; i < items.length; i++) {
-	// 	items[i].classList.remove("active");
-	// }
-	// target.classList.add("active");
 }
 
-for(var i = 0; i < btns.length; i++) {
-	btns[i].addEventListener("click", deleteBtn);
-}
-
-function deleteBtn(event) {
-	event.target.parentNode.remove();
-}
+button.addEventListener("click", addItemAfterClick);
+input.addEventListener("keypress", addItemAfterKeypress);
